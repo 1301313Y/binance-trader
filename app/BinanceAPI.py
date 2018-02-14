@@ -98,11 +98,11 @@ class BinanceAPI:
 
     def get_all_tickers(self):
         path = "%s/ticker/bookTicker" % self.BASE_URL_V3
-        return self._get(path)
+        return requests.get(path, verify=True).json()
 
     def get_server_time(self):
         path = "%s/time" % self.BASE_URL
-        return self._get(path)
+        return requests.get(path, verify=True).json()
 
     @staticmethod
     def _get_no_sign(path, params=None):

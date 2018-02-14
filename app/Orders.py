@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 # @yasinkuyu
 import config
+import datetime
 
 from BinanceAPI import BinanceAPI
 from Messages import Messages
@@ -31,6 +32,13 @@ class Orders:
             Messages.get(order['msg'])
 
         return order
+
+    @staticmethod
+    def get_server_time():
+        time = client.get_server_time()
+        if 'msg' in time:
+            Messages.get(time['msg'])
+        return datetime.datetime.fromtimestamp(time['serverTime'] / 1000.0)
 
     @staticmethod
     def buy_market(symbol, quantity):

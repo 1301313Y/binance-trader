@@ -312,8 +312,10 @@ class Trading:
         # Screen log
         if self.option.prints and self.order_id == 0:
             spread_perc = (last_ask / last_bid - 1) * 100.0
-            print('price:%.8f buyp:%.8f sellp:%.8f-bid:%.8f ask:%.8f spread:%.2f' % (
-                last_price, buy_price, profitable_selling_price, last_bid, last_ask, spread_perc))
+            print('[%s] Last Price:%.8f, Buy Price:%.8f, Profit Sell:%.8f, '
+                  'Last Bid:%.8f, Last Ask:%.8f, Spread:%.2f' % (
+                      Orders.get_server_time(), last_price, buy_price, profitable_selling_price, last_bid, last_ask,
+                      spread_perc))
         # analyze = threading.Thread(target=analyze, args=(symbol,))
         # analyze.start()
 
@@ -360,7 +362,7 @@ class Trading:
         # Get symbol exchange info
         symbol_info = Orders.get_info(symbol)
         if not symbol_info:
-            print("Invalid symbol, please try again...")
+            print("Invalid trading pair symbol! Please verify launch parameters, and try again...")
             exit(1)
         symbol_info['filters'] = {item['filterType']: item for item in symbol_info['filters']}
         return symbol_info
