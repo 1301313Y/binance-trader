@@ -62,7 +62,7 @@ class Trading:
     def buy(self, symbol, quantity, buy_price):
 
         # Do you have an open order?
-        self.checkorder()
+        self.check_order()
 
         try:
             # Create order
@@ -210,7 +210,7 @@ class Trading:
         # If profit is available and there is no purchase from the specified price, take it with the market.
 
         # Do you have an open order?
-        self.checkorder()
+        self.check_order()
 
         trading_size = 0
         time.sleep(self.WAIT_TIME_BUY_SELL)
@@ -284,22 +284,18 @@ class Trading:
             print('c: %s' % e)
             return
 
-    def checkorder(self):
+    def check_order(self):
         # If there is an open order, exit.
         if self.order_id > 0:
             exit(1)
 
     def action(self, symbol):
-
         # Order amount
         quantity = self.quantity
-
         # Fetches the ticker price
         last_price = Orders.get_ticker(symbol)
-
         # Order book prices
         last_bid, last_ask = Orders.get_order_book(symbol)
-
         # Target buy price, add little increase #87
         buy_price = last_bid + self.increasing
 
@@ -308,49 +304,38 @@ class Trading:
 
         # Spread ( profit )
         profitable_selling_price = self.calc(last_bid)
-
         # Check working mode
         if self.option.mode == 'range':
             buy_price = float(self.option.buyprice)
             sell_price = float(self.option.sellprice)
             profitable_selling_price = sell_price
-
         # Screen log
         if self.option.prints and self.order_id == 0:
             spread_perc = (last_ask / last_bid - 1) * 100.0
             print('price:%.8f buyp:%.8f sellp:%.8f-bid:%.8f ask:%.8f spread:%.2f' % (
                 last_price, buy_price, profitable_selling_price, last_bid, last_ask, spread_perc))
-
         # analyze = threading.Thread(target=analyze, args=(symbol,))
         # analyze.start()
 
         if self.order_id > 0:
-
             # Profit mode
             if self.order_data is not None:
-
                 order = self.order_data
-
                 # Last control
                 new_profitable_selling_price = self.calc(float(order['price']))
-
                 if last_ask >= new_profitable_selling_price:
                     profitable_selling_price = new_profitable_selling_price
-
             # range mode
             if self.option.mode == 'range':
                 profitable_selling_price = self.option.sellprice
-
             '''            
             If the order is complete, 
             try to sell it.
             '''
-
             # Perform buy action
             sell_action = threading.Thread(target=self.sell,
                                            args=(symbol, quantity, self.order_id, profitable_selling_price, last_price))
             sell_action.start()
-
             return
 
         '''
@@ -371,18 +356,13 @@ class Trading:
         return 0
 
     def filters(self):
-
         symbol = self.option.symbol
-
-        # Get symbol exchance info
+        # Get symbol exchange info
         symbol_info = Orders.get_info(symbol)
-
         if not symbol_info:
             print("Invalid symbol, please try again...")
             exit(1)
-
         symbol_info['filters'] = {item['filterType']: item for item in symbol_info['filters']}
-
         return symbol_info
 
     @staticmethod
@@ -464,34 +444,35 @@ class Trading:
 
         print('Binance Trading Bot - B Fork @1301313Y, 2018')
         print('Original Application Written By: @yasinkuyu, 2018')
-        print('Auto Trading for Binance.com. --symbol: %s\n' % symbol)
 
-        print('... \n')
-
+        print('-' * 80)
         # Validate symbol
         self.validate()
-
-        print('Started... --quantity: %.8f\n' % self.quantity)
-
+        print('Initializing Application...')
+        print("Exchange: Binance")
+        print("Trading Pair: %s" % symbol)
+        print("Max Buy Quantity: %s" % self.option.quantity)
+        print("Stop-Loss Amount: %s" % self.option.stop_loss)
+        print("Trading Behavior: %s" % self.option.mode)
         if self.option.mode == 'range':
-
             if self.option.buyprice == 0 or self.option.sellprice == 0:
-                print('Plese enter --buyprice / --sellprice\n')
+                print('Please enter --buyprice / --sellprice\n')
                 exit(1)
-
-            print('Wait buyprice:%.8f sellprice:%.8f' % (self.option.buyprice, self.option.sellprice))
-
+            print("Range Mode Options:")
+            print("\tPrice Targets:" % self.option.mode)
+            print("\tBuy: %.8f", self.option.buyprice)
+            print("\tSell: %.8f", self.option.sellprice)
         else:
-            print('%s%% profit scanning for %s \n' % (self.option.profit, symbol))
-            print('Between Ask and Bid %s%% profit hunting' % self.option.profit)
-            print('buyp : BuyPrice  (Bid+ --increasing %.8f)' % self.increasing)
-            print('sellp: SellPrice (Bid- --decreasing %.8f)' % self.decreasing)
-
-        print('... \n')
+            print("Profit Mode Options:")
+            print("\tPreferred Profit: %0.2f%%" % self.option.profit)
+            print("\tBuy Price : (Bid+ --increasing %.8f)" % self.increasing)
+            print("\tSell Price: (Bid- --decreasing %.8f)" % self.decreasing)
+        print("Application Successfully Initialized!\nStarting...")
+        print('-' * 80)
 
         while cycle <= self.option.loop:
             start_time = time.time()
-            action_trader = threading.Thread(target=self.action, args=symbol)
+            action_trader = threading.Thread(target=self.action, args={symbol})
             actions.append(action_trader)
             action_trader.start()
             end_time = time.time()
