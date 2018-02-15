@@ -1,11 +1,10 @@
 # Define Custom imports
-import Database
-import Orders
-
-import time
+from behavior.Advice import Advice
 
 
 class Behavior:
+    column_names = ['opendate', 'open', 'high', 'low', 'close', 'volume', 'close date', 'quote',
+                    'trades', 'takerbuybasevol', 'takerbuyquotevol', 'ignore']
     # Define Trade Parameters
     order_id = 0
     order_data = None
@@ -52,7 +51,7 @@ class Behavior:
         return
 
     def on_action(self, symbol):
-        return "WAIT"
+        return Advice.HOLD
 
     def check_order(self):
         # If there is an open order, exit.

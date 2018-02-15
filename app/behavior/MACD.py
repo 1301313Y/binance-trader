@@ -2,10 +2,14 @@ from behavior.Behavior import Behavior
 from Orders import Orders
 import datetime
 import pandas as pd
-from pandas import Series
+from stockstats import StockDataFrame
+from behavior.Advice import Advice
 
 
 class MACD(Behavior):
+
+    last_positive_cross = None
+    last_negative_cross = None
 
     def __init__(self, option):
         super().__init__(option)
@@ -22,30 +26,59 @@ class MACD(Behavior):
 
     def on_action(self, symbol):
         px = pd.DataFrame(Orders.get_candle_sticks(symbol, self.trading_period))
-        px.dropna()
-        px['26 EMA'] = Series.ewm(px[4], span=26).mean()
-        px['12 EMA'] = Series.ewm(px[4], span=12).mean()
-        px['MACD'] = (px['12 EMA'] - px['26 EMA'])
-        px['Signal'] = Series.ewm(px['MACD'], span=9).mean()
-        print(px['Signal'][px['Signal'].size - 1] - px['MACD'][px['MACD'].size - 1])
-        signal = px['Signal']  # Your signal line
-        macd = px['MACD']  # The MACD that need to cross the signal line
-        list_long_short = ["No data"]  # Since you need at least two days in the for loop
+        data = pd.DataFrame(Orders.get_candle_sticks(symbol, self.options.trading_period), dtype='float64')
+        data.columns = self.column_names
+        stock_data = StockDataFrame.retype(data)
+        macd = stock_data['macd']
+        signal = stock_data['macds']
+        list_long_short = [Advice.NAN]  # Since you need at least two days in the for loop
+        has_crossed_up = False
+        crossed_up_validations = 0
+        has_crossed_down = False
+        crossed_down_validations = 0
         for i in range(1, len(signal)):
             # If the MACD crosses the signal line upward
-            if macd[i] > signal[i] and macd[i - 1] <= signal[i - 1]:
-                list_long_short.append("BUY")
-            # The other way around
-            elif macd[i] < signal[i] and macd[i - 1] >= signal[i - 1]:
-                list_long_short.append("SELL")
-            # Do nothing if not crossed
+            macd_point = macd[i]
+            signal_point = signal[i]
+            macd_prev_point = macd[i - 1]
+            signal_prev_point = signal[i - 1]
+            if has_crossed_up:
+                if macd_point > signal_point:
+                    crossed_up_validations += 1
+                    if crossed_up_validations > self.options.macd_uv:
+                        list_long_short.append(Advice.BUY)
+                        has_crossed_up = False
+                        crossed_up_validations = 0
+                        continue
+                else:
+                    has_crossed_up = False
+                    crossed_up_validations = 0
+                list_long_short.append(Advice.HOLD)
+            elif has_crossed_down:
+                if macd_point < signal_point:
+                    crossed_down_validations += 1
+                    if crossed_down_validations > self.options.macd_dv:
+                        list_long_short.append(Advice.SELL)
+                        has_crossed_down = False
+                        crossed_down_validations = 0
+                        continue
+                else:
+                    has_crossed_down = False
+                    crossed_down_validations = 0
+                list_long_short.append(Advice.HOLD)
             else:
-                list_long_short.append("HOLD")
+                if macd_point > signal_point and macd_prev_point <= signal_prev_point:
+                    has_crossed_up = True
+                # The other way around
+                elif macd_point < signal_point and macd_prev_point >= signal_prev_point:
+                    has_crossed_down = True
+                list_long_short.append(Advice.HOLD)
 
         px['Advice'] = list_long_short
+        return px['Advice'].last(0)
 
-        # The advice column means "Buy/Sell/Hold" at the end of this day or
-        #  at the beginning of the next day, since the market will be closed
+    def pos_threshold(self, value):
+        return value * self.options.macd_pt
 
-        print(px['Advice'][px['Advice'].size - 1])
-        return "WAIT"
+    def neg_threshold(self, value):
+        return value * self.options.macd_nt

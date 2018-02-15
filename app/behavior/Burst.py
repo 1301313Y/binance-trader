@@ -1,8 +1,7 @@
-import threading
-
 from behavior.Behavior import Behavior
 
 from app.Orders import Orders
+from behavior.Advice import Advice
 
 
 class Burst(Behavior):
@@ -56,7 +55,7 @@ class Burst(Behavior):
             # range mode
             if self.options.mode == 'range':
                 profitable_selling_price = self.options.sellprice
-            return "SELL"
+            return Advice.SELL
 
         '''
         Did profit get caught
@@ -67,10 +66,10 @@ class Burst(Behavior):
                 (last_price <= float(self.options.buyprice) and self.options.mode == 'range'):
 
             if self.order_id == 0:
-                return "BUY"
+                return Advice.BUY
                 # self.buy(symbol, quantity, buy_price)
 
                 # Perform check/sell action
                 # checkAction = threading.Thread(target=self.check, args=(symbol, self.order_id, quantity,))
                 # checkAction.start()
-        return "WAIT"
+        return Advice.HOLD

@@ -5,7 +5,6 @@
 import time
 import threading
 import math
-from app.behavior.RSI import RSI
 from app.behavior.MACD import MACD
 
 # Define Custom imports
@@ -47,7 +46,7 @@ class Trading:
 
     def __init__(self, option):
         # Behavior
-        self.behavior = RSI(option)
+        self.behavior = MACD(option)
         # Get argument parse options
         self.option = option
 

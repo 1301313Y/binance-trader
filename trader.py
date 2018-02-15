@@ -36,11 +36,10 @@ if __name__ == '__main__':
     parser.add_argument('--mode', type=str, help='Working Mode', default='profit')
     parser.add_argument('--buyprice', type=float, help='Buy Price (Price is greater than equal <=)', default=0)
     parser.add_argument('--sellprice', type=float, help='Sell Price (Price is small than equal >=)', default=0)
-    parser.add_argument('--trading_period', type=str, help='Trading Period', default='15m')
+    parser.add_argument('--trading_period', type=str, help='Trading Period', default='1m')
     parser.add_argument('--rsi_window', type=int, help='Relative Strength Index Window Size', default=14)
-    parser.add_argument('--macd_short', type=int, help='The short EMA length for MACD', default=12)
-    parser.add_argument('--macd_long', type=int, help='The long EMA length for MACD', default=26)
-    parser.add_argument('--macd_signal', type=int, help='The signal line EMA length for MACD', default=9)
+    parser.add_argument('--macd_uv', type=int, help='MACD Positive Cross Up Validations', default=4)
+    parser.add_argument('--macd_dv', type=int, help='MACD Negative Cross Down Validations', default=0)
     option = parser.parse_args()
     
     # Get start

@@ -2,7 +2,7 @@ from behavior.Behavior import Behavior
 from Orders import Orders
 import datetime
 import pandas as pd
-from pandas import Series
+from behavior.Advice import Advice
 
 
 class EMA(Behavior):
@@ -24,4 +24,4 @@ class EMA(Behavior):
         px = pd.DataFrame(Orders.get_candle_sticks(symbol, self.trading_period))
         px.dropna()
 
-        return "WAIT"
+        return Advice.HOLD

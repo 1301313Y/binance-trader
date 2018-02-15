@@ -81,13 +81,12 @@ import sqlite3
     --loop              Loop (default 0 unlimited)
     --trading_period    Candle Stick Period (default 15m) (See 'Available Trading Periods' section below for all options)
     --rsi_window        The window size for the RSI indicator (default 14)
-    --macd_short        The short EMA size for the MACD indicator (default 12) 
-    --macd_long         The long EMA size for the MACD indicator (default 26) 
-    --macd_signal       The signal line EMA size for the MACD indicator (default 9) 
+    --macd_uv           The MACD Positive Cross Up Validations (default 4) 
+    --macd_dv           MACD Negative Cross Down Validations (default 0) 
     
-    --mode         Working modes profit or range (default profit)
-                   profit: Profit Hunter. Find defined profit, buy and sell. (Ex: 1.3% profit)
-                   range: Between target two price, buy and sell. (Ex: <= 0.00000780 buy - >= 0.00000790 sell )
+    --mode          Working modes profit or range (default profit)
+                        profit: Profit Hunter. Find defined profit, buy and sell. (Ex: 1.3% profit)
+                        range: Between target two price, buy and sell. (Ex: <= 0.00000780 buy - >= 0.00000790 sell )
                    
     --buyprice     Buy price (Ex: 0.00000780)
     --sellprice    Buy price (Ex: 0.00000790)
