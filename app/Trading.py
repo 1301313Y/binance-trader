@@ -5,7 +5,9 @@
 import time
 import threading
 import math
+from app.behavior.BehaviorManager import BehaviorManager
 from app.behavior.MACD import MACD
+from app.behavior.RSI import RSI
 
 # Define Custom imports
 from Database import Database
@@ -46,7 +48,8 @@ class Trading:
 
     def __init__(self, option):
         # Behavior
-        self.behavior = MACD(option)
+        self.behavior = BehaviorManager()
+        self.behavior.submit([RSI(option), MACD(option)])
         # Get argument parse options
         self.option = option
 
@@ -348,8 +351,8 @@ class Trading:
         if ask price is greater than profit price, 
         buy with my buy price,    
         '''
-        on_action = self.behavior.on_action(symbol)
-        if on_action == 'BUY':
+        on_action = self.behavior.popular_advice(symbol)
+        if 'D' == 'BUY':
             self.buy(symbol, quantity, buy_price)
             # Perform check/sell action
             # checkAction = threading.Thread(target=self.check, args=(symbol, self.order_id, quantity,))

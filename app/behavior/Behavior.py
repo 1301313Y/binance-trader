@@ -64,3 +64,6 @@ class Behavior:
         except Exception as e:
             print('c: %s' % e)
             return
+
+    def placed_order(self):
+        return self.order_id > 0

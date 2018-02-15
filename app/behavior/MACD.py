@@ -43,7 +43,7 @@ class MACD(Behavior):
             macd_prev_point = macd[i - 1]
             signal_prev_point = signal[i - 1]
             if has_crossed_up:
-                if macd_point > signal_point:
+                if self.placed_order() is False and macd_point > signal_point:
                     crossed_up_validations += 1
                     if crossed_up_validations > self.options.macd_uv:
                         list_long_short.append(Advice.BUY)
@@ -54,7 +54,7 @@ class MACD(Behavior):
                     has_crossed_up = False
                     crossed_up_validations = 0
                 list_long_short.append(Advice.HOLD)
-            elif has_crossed_down:
+            elif self.placed_order() and has_crossed_down:
                 if macd_point < signal_point:
                     crossed_down_validations += 1
                     if crossed_down_validations > self.options.macd_dv:
@@ -75,7 +75,7 @@ class MACD(Behavior):
                 list_long_short.append(Advice.HOLD)
 
         px['Advice'] = list_long_short
-        return px['Advice'].last(0)
+        return px['Advice'][px['Advice'].size - 1]
 
     def pos_threshold(self, value):
         return value * self.options.macd_pt

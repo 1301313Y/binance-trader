@@ -6,7 +6,6 @@ from behavior.Advice import Advice
 
 
 class RSI(Behavior):
-
     rsi_window = 14
 
     def __init__(self, option):
@@ -19,5 +18,9 @@ class RSI(Behavior):
         data.columns = self.column_names
         stock_data = StockDataFrame.retype(data)
         window_ = stock_data['rsi_%d' % self.rsi_window]
-        print("RSI(%d): %0.8f" % (self.rsi_window, int(window_[window_.size - 1])))
+        rsi = int(window_[window_.size - 1])
+        if self.placed_order() is False and rsi < self.options.rsi_min:
+            return Advice.BUY
+        if self.placed_order() and rsi > self.options.rsi_cap:
+            return Advice.SELL
         return Advice.HOLD
