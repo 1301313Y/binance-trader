@@ -39,7 +39,6 @@ class Behavior:
         self.options = option
         # Define parser vars
         self.trading_period = self.options.trading_period
-        self.rsi_window = int(self.trading_period[:-1])
         self.order_id = self.options.orderid
         self.quantity = self.options.quantity
         self.wait_time = self.options.wait_time
