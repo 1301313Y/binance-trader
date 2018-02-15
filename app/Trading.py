@@ -5,6 +5,8 @@
 import time
 import threading
 import math
+from app.behavior.RSI import RSI
+from app.behavior.MACD import MACD
 
 # Define Custom imports
 from Database import Database
@@ -33,6 +35,7 @@ class Trading:
 
     # float(step_size * math.floor(float(free)/step_size))
     step_size = 0
+    behavior = None
 
     # Define static vars
     WAIT_TIME_BUY_SELL = 1  # seconds
@@ -43,7 +46,8 @@ class Trading:
     MAX_TRADE_SIZE = 7  # int
 
     def __init__(self, option):
-
+        # Behavior
+        self.behavior = RSI(option)
         # Get argument parse options
         self.option = option
 
@@ -345,13 +349,14 @@ class Trading:
         if ask price is greater than profit price, 
         buy with my buy price,    
         '''
-        if (last_ask >= profitable_selling_price and self.option.mode == 'profit') or \
-                (last_price <= float(self.option.buyprice) and self.option.mode == 'range'):
-            if self.order_id == 0:
-                self.buy(symbol, quantity, buy_price)
-                # Perform check/sell action
-                # checkAction = threading.Thread(target=self.check, args=(symbol, self.order_id, quantity,))
-                # checkAction.start()
+        on_action = self.behavior.on_action(symbol)
+        if on_action == 'BUY':
+            self.buy(symbol, quantity, buy_price)
+            # Perform check/sell action
+            # checkAction = threading.Thread(target=self.check, args=(symbol, self.order_id, quantity,))
+            # checkAction.start()
+        action = on_action
+        print(action)
 
     @staticmethod
     def logic():

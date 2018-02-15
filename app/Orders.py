@@ -78,6 +78,22 @@ class Orders:
             return False
 
     @staticmethod
+    def get_candle_sticks(symbol, interval):
+        try:
+            return client.get_kline(symbol, interval)
+        except Exception as e:
+            print('kl: %s' % e)
+            return None
+
+    @staticmethod
+    def get_candle_sticks_limit(symbol, interval, start_time, end_time):
+        try:
+            return client.get_kline_limit(symbol, interval, start_time, end_time)
+        except Exception as e:
+            print('kl: %s' % e)
+            return None
+
+    @staticmethod
     def get_order_book(symbol):
         try:
 
