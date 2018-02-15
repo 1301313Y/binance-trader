@@ -21,15 +21,19 @@ This is an experimental bot for auto trading the binance.com exchange. [@yasinku
         api_secret = ''
 
         API Docs: https://www.binance.com/restapipub.html
-7. Optional: run as an excutable application in Docker containers
-
-## Requirements
-
+7. If needed install the `requests` package.
+    ```
     sudo easy_install -U requests
     or 
     sudo pip install requests
-    
-    Python 2.7
+    ```
+7. Optional: run as an excutable application in Docker containers
+
+## Requirements
+    Python 3.x
+    [requests](http://docs.python-requests.org/en/master/)
+    Libraries:
+    ```
         import os
         import sys
         import time
@@ -37,6 +41,8 @@ This is an experimental bot for auto trading the binance.com exchange. [@yasinku
         import argparse
         import threading
         import sqlite3
+    ```
+
 
 ## Usage
 
@@ -104,7 +110,9 @@ This is an experimental bot for auto trading the binance.com exchange. [@yasinku
     You assume all responsibility and liability.
      
 ## Contributing
-
+    
+    Current Fork Developed By: @1301313Y
+    
     Fork this Repo
     Commit your changes (git commit -m 'Add some feature')
     Push to the changes (git push)
@@ -131,25 +139,39 @@ This is an experimental bot for auto trading the binance.com exchange. [@yasinku
     
 ## Roadmap
 
-    - MACD indicator (buy/sell)
+    - Behavior Support (EMA, RSI, MACD, Etc...)
+    - EMA Behavior (In Progress)
+    - RSI Behavior (In Progress)
+    - MACD Behavior (In Progress)
+    - Multi-Behavior Advice Risk Factor Analysis
     - Stop-Loss implementation
-    - Working modes
-      - profit: Find defined profit, buy and sell. (Ex: 1.3% profit)
-      - range:  Between target two price, buy and sell. (Ex: <= 0.00100 buy - >= 0.00150 sell )
-    - Binance/Bittrex/HitBTC Arbitrage  
     
-    ...
-    
+ ## Modes  
+    Working:
+        - profit: Find defined profit, buy and sell. (Ex: 1.3% profit)
+        - range:  Between target two price, buy and sell. (Ex: <= 0.00100 buy - >= 0.00150 sell )
+    In Development:
+        Behavior Support: This will allow the user to add custom behaviors, which can be used to provide customized advice
+        for trading. These behaviors will be able to be used as pairs, so that you can have stronger advice before executing a trade.
+        - behavior: Uses a single behavior for advice.
+        - multi-behavior: Uses multiple behaviors, and bases advice on risk factor.
+        
+ ## Releases
     - October 7, 2017 Beta
     - January 6, 2018 RC
     - January 15, 2018 RC 1
     - January 20, 2018 RC 2
      
 ## License
-
     Code released under the MIT License.
 
 #### Tip Box
-[Wallets](http://yasinkuyu.net/wallet) 
+Original Author:
+[Wallets](http://yasinkuyu.net/wallet)
+
+Me:
+BTC: 148UCoHdsiRQShaYpLBD3ymagMxZ3ypjfp
+ETH: 0xdC88283D6DeD303CeAF88221869B6F3e6F1f69Ab
+ETN: etnkKhGvXtCFt8QFXFMcm65GG4yZqXCgjabKop7vDsCGV7ftYEGie8HMWUS5DPx3HhVJXMT6MWsDk2Bivy5YBKQD2VyQ98tNjs
 
 ---
