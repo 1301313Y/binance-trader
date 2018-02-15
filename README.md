@@ -1,4 +1,4 @@
-# Binance Trader (RC 2)
+# Binance Trader (B-1.0.0)(In Development)
 
 This is an experimental bot for auto trading the binance.com exchange. Originally written by [@yasinkuyu](https://twitter.com/yasinkuyu). Behavior support will be a main focus for this fork of the bot, as I believe
 having a single type of trading behavior can lead to dissapointing results. The behavior structure will be designed around
@@ -168,6 +168,7 @@ import sqlite3
     - January 6, 2018 RC
     - January 15, 2018 RC 1
     - January 20, 2018 RC 2
+    - TBA, 2018 B-1.0.0 (In Development)
      
 ## License
     Code released under the MIT License.
