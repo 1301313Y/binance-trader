@@ -1,6 +1,13 @@
 # Binance Trader (RC 2)
 
-This is an experimental bot for auto trading the binance.com exchange. [@yasinkuyu](https://twitter.com/yasinkuyu)
+This is an experimental bot for auto trading the binance.com exchange. Originally written by [@yasinkuyu](https://twitter.com/yasinkuyu). Behavior support will be a main focus for this fork of the bot, as I believe
+having a single type of trading behavior can lead to dissapointing results. The behavior structure will be designed around
+the idea of it being used as a tool which gives the bot advice on what should be the next move in trading. These behaviors
+will be able to be written by the user, and can be paired with others to give stronger trading advice. I believe with
+these tools, the user can define their success with this bot. Though remember with this power, also comes repsonsiblity.
+Because if you fail, just as with success you only have yourself to blame.
+
+**USE THIS BOT AT YOUR OWN RISK! PROFITS ARE NOT GUARANTEED!**
 
 ![Screenshot](https://github.com/yasinkuyu/binance-trader/blob/master/img/screenshot.png)
 
