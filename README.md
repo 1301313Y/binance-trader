@@ -30,18 +30,18 @@ This is an experimental bot for auto trading the binance.com exchange. [@yasinku
 7. Optional: run as an excutable application in Docker containers
 
 ## Requirements
-    Python 3.x
-    [requests](http://docs.python-requests.org/en/master/)
-    Libraries:
-    ```
-        import os
-        import sys
-        import time
-        import config
-        import argparse
-        import threading
-        import sqlite3
-    ```
+* Python 3.x
+* [requests](http://docs.python-requests.org/en/master/)
+```
+Libraries:
+import os
+import sys
+import time
+import config
+import argparse
+import threading
+import sqlite3
+ ```
 
 
 ## Usage
