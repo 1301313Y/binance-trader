@@ -167,11 +167,11 @@ import sqlite3
 
 #### Tip Box
 Original Author:
-[Wallets](http://yasinkuyu.net/wallet)
+* [Wallets](http://yasinkuyu.net/wallet)
 
 Me:
-BTC: 148UCoHdsiRQShaYpLBD3ymagMxZ3ypjfp
-ETH: 0xdC88283D6DeD303CeAF88221869B6F3e6F1f69Ab
-ETN: etnkKhGvXtCFt8QFXFMcm65GG4yZqXCgjabKop7vDsCGV7ftYEGie8HMWUS5DPx3HhVJXMT6MWsDk2Bivy5YBKQD2VyQ98tNjs
+* BTC: `148UCoHdsiRQShaYpLBD3ymagMxZ3ypjfp`
+* ETH: `0xdC88283D6DeD303CeAF88221869B6F3e6F1f69Ab`
+* ETN: `etnkKhGvXtCFt8QFXFMcm65GG4yZqXCgjabKop7vDsCGV7ftYEGie8HMWUS5DPx3HhVJXMT6MWsDk2Bivy5YBKQD2VyQ98tNjs`
 
 ---
