@@ -11,34 +11,11 @@ Because if you fail, just as with success you only have yourself to blame.
 
 ![Screenshot](https://github.com/yasinkuyu/binance-trader/blob/master/img/screenshot.png)
 
-## Configuration
-
-1. Signup Binance ( Referral url: https://www.binance.com/?ref=10701111 )
-2. Enable Two-factor Authentication    
-3. Go API Center, https://www.binance.com/userCenter/createApi.html
-4. Create New Key
-
-        [✓] Read Info [✓] Enable Trading [X] Enable Withdrawals 
-5. Rename config.sample.py to config.py / orders.sample.db to orders.db
-6. Get an API and Secret Key, insert into config.py
-
-        API key for account access
-        api_key = ''
-        Secret key for account access
-        api_secret = ''
-
-        API Docs: https://www.binance.com/restapipub.html
-7. If needed install the `requests` package.
-    ```
-    sudo easy_install -U requests
-    or 
-    sudo pip install requests
-    ```
-7. Optional: run as an excutable application in Docker containers
-
 ## Requirements
 * Python 3.x
 * [requests](http://docs.python-requests.org/en/master/)
+* [stockstats](https://pypi.python.org/pypi/stockstats)
+* [pandas](https://pandas.pydata.org/)
 ```
 Libraries:
 import os
@@ -49,6 +26,30 @@ import argparse
 import threading
 import sqlite3
  ```
+
+## First Time Configuration
+
+1. Signup Binance ( Referral url: https://www.binance.com/?ref=10701111 )
+2. Enable Two-factor Authentication    
+3. Go API Center, https://www.binance.com/userCenter/createApi.html
+4. Create New Key
+
+        [✓] Read Info [✓] Enable Trading [X] Enable Withdrawals 
+5. If needed, install the required packages.
+
+        pip install requests
+        pip install pandas
+        pip install stockstats
+6. Rename config.sample.py to config.py / orders.sample.db to orders.db
+7. Get your API and Secret Key from step 4, and insert into config.py
+
+        # API key for account access
+        api_key = ''
+        # Secret key for account access
+        api_secret = ''
+
+        API Docs: https://www.binance.com/restapipub.html
+7. Optional: run as an excutable application in Docker containers
 
 
 ## Usage
@@ -67,17 +68,22 @@ import sqlite3
     or by amount
     python trader.py --symbol XVGBTC --mode range --amount 0.0022 --buyprice 0.00000780 --sellprice 0.00000790
     
-    --quantity     Buy/Sell Quantity (default 0) (If zero, auto calc)
-    --amount       Buy/Sell BTC Amount (default 0)
-    --symbol       Market Symbol (default XVGBTC or XVGETH)
-    --profit       Target Profit Percentage (default 1.3)
-    --stop_loss    Decrease sell price at loss Percentage (default 0)
-    --orderid      Target Order Id (default 0)
-    --wait_time    Wait Time (seconds) (default 0.7)
-    --increasing   Buy Price Increasing  +(default 0.00000001)
-    --decreasing   Sell Price Decreasing -(default 0.00000001)
-    --prints       Scanning Profit Screen Print (default True)
-    --loop         Loop (default 0 unlimited)
+    --quantity          Buy/Sell Quantity (default 0) (If zero, auto calc)
+    --amount            Buy/Sell BTC Amount (default 0)
+    --symbol            Market Symbol (default XVGBTC or XVGETH)
+    --profit            Target Profit Percentage (default 1.3)
+    --stop_loss         Decrease sell price at loss Percentage (default 0)
+    --orderid           Target Order Id (default 0)
+    --wait_time         Wait Time (seconds) (default 0.7)
+    --increasing        Buy Price Increasing  +(default 0.00000001)
+    --decreasing        Sell Price Decreasing -(default 0.00000001)
+    --prints            Scanning Profit Screen Print (default True)
+    --loop              Loop (default 0 unlimited)
+    --trading_period    Candle Stick Period (default 15m) (See 'Available Trading Periods' section below for all options)
+    --rsi_window        The window size for the RSI indicator (default 14)
+    --macd_short        The short EMA size for the MACD indicator (default 12) 
+    --macd_long         The long EMA size for the MACD indicator (default 26) 
+    --macd_signal       The signal line EMA size for the MACD indicator (default 9) 
     
     --mode         Working modes profit or range (default profit)
                    profit: Profit Hunter. Find defined profit, buy and sell. (Ex: 1.3% profit)
@@ -102,6 +108,29 @@ import sqlite3
         trader.py --symbol NEOBTC --amount 0.1 --profit 1.1
         trader.py --symbol ETHUSDT --quantity 0.3 --profit 1.5
         ...
+## Available Trading Periods
+* _m -> minutes;_
+* _h -> hours;_
+* _d -> days;_
+* _w -> weeks;_
+* _M -> months_
+* Supported Periods:
+
+        1m
+        3m
+        5m
+        15m
+        30m
+        1h
+        2h
+        4h
+        6h
+        8h
+        12h
+        1d
+        3d
+        1w
+        1M
     
 ## Run in a Docker container
 
