@@ -15,13 +15,20 @@ class BehaviorManager:
             count_sell = 0
             for b in self.behavior_list:
                 action = b.on_action(symbol)
-                if action == Advice.BUY:
-                    count_buy += 1
+                if action == Advice.STRONG_BUY:
+                    count_buy += 2 * b.weight()
+                elif action == Advice.STRONG_SELL:
+                    count_sell += 2 * b.weight()
+                elif action == Advice.BUY:
+                    count_buy += b.weight()
                 elif action == Advice.SELL:
-                    count_sell += 1
+                    count_sell += b.weight()
                 elif action == Advice.HOLD:
-                    count_hold += 1
+                    count_hold += b.weight()
             highest = max(count_hold, max(count_buy, count_sell))
+            print("Buy: %d" % count_buy)
+            print("Sell: %d" % count_sell)
+            print("Hold: %d" % count_hold)
             if count_buy == count_sell:
                 return Advice.HOLD
             if highest == count_buy:

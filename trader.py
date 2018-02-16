@@ -42,6 +42,8 @@ if __name__ == '__main__':
     parser.add_argument('--rsi_min', type=int, help='Relative Strength Index Minimum', default=30)
     parser.add_argument('--macd_uv', type=int, help='MACD Positive Cross Up Validations', default=4)
     parser.add_argument('--macd_dv', type=int, help='MACD Negative Cross Down Validations', default=0)
+    parser.add_argument('--stoch_cap', type=int, help='Stoch Oscillator Alert Cap', default=80)
+    parser.add_argument('--stoch_min', type=int, help='Stoch Oscillator Minimum Alert', default=20)
     option = parser.parse_args()
     
     # Get start

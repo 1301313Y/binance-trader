@@ -8,6 +8,9 @@ import math
 from app.behavior.BehaviorManager import BehaviorManager
 from app.behavior.MACD import MACD
 from app.behavior.RSI import RSI
+from app.behavior.StochOscillator import StochOscillator
+from app.behavior.Burst import Burst
+from app.behavior.Advice import Advice
 
 # Define Custom imports
 from Database import Database
@@ -49,7 +52,7 @@ class Trading:
     def __init__(self, option):
         # Behavior
         self.behavior = BehaviorManager()
-        self.behavior.submit([RSI(option), MACD(option)])
+        self.behavior.submit([Burst(option), RSI(option), MACD(option), StochOscillator(option)])
         # Get argument parse options
         self.option = option
 
@@ -311,6 +314,7 @@ class Trading:
         # Spread ( profit )
         profitable_selling_price = self.calc(last_bid)
         # Check working mode
+        on_action = self.behavior.popular_advice(symbol)
         if self.option.mode == 'range':
             buy_price = float(self.option.buyprice)
             sell_price = float(self.option.sellprice)
@@ -325,7 +329,7 @@ class Trading:
         # analyze = threading.Thread(target=analyze, args=(symbol,))
         # analyze.start()
 
-        if self.order_id > 0:
+        if on_action == Advice.SELL:
             # Profit mode
             if self.order_data is not None:
                 order = self.order_data
@@ -351,8 +355,7 @@ class Trading:
         if ask price is greater than profit price, 
         buy with my buy price,    
         '''
-        on_action = self.behavior.popular_advice(symbol)
-        if 'D' == 'BUY':
+        if on_action == Advice.BUY:
             self.buy(symbol, quantity, buy_price)
             # Perform check/sell action
             # checkAction = threading.Thread(target=self.check, args=(symbol, self.order_id, quantity,))

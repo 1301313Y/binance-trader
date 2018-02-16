@@ -50,6 +50,9 @@ class Behavior:
         self.amount = self.options.amount
         return
 
+    def weight(self):
+        return 1
+
     def on_action(self, symbol):
         return Advice.HOLD
 
