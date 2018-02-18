@@ -34,13 +34,6 @@ class Burst(Behavior):
             sell_price = float(self.options.sellprice)
             profitable_selling_price = sell_price
 
-        if self.options.prints and self.order_id == 0:
-            spread_perc = (last_ask / last_bid - 1) * 100.0
-            print('[%s] Last Price:%.8f, Buy Price:%.8f, Profit Sell:%.8f, '
-                  'Last Bid:%.8f, Last Ask:%.8f, Spread:%.2f' % (
-                      Orders.get_server_time(), last_price, buy_price, profitable_selling_price, last_bid, last_ask,
-                      spread_perc))
-
         # analyze = threading.Thread(target=analyze, args=(symbol,))
         # analyze.start()
 

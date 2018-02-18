@@ -2,6 +2,7 @@
 # @yasinkuyu
 import config
 import datetime
+import pandas as pd
 
 from BinanceAPI import BinanceAPI
 from Messages import Messages
@@ -13,8 +14,39 @@ client = BinanceAPI(config.api_key, config.api_secret)
 class Orders:
 
     @staticmethod
-    def buy_limit(symbol, quantity, buy_price):
+    def has_enough_to_trade(symbol, buying=True, quantity=0):
+        last_price = Orders.get_ticker(symbol)
+        if quantity > 0:
+            order_notional = quantity * last_price
+        else:
+            coin_balance, currency_balance = Orders.get_balance(symbol)
+            if buying:
+                order_notional = currency_balance
+            else:
+                order_notional = coin_balance * last_price
+        min_notional = Orders.get_min_notional(symbol)
+        return order_notional > min_notional
 
+    @staticmethod
+    def get_min_notional(symbol):
+        data_frame = pd.DataFrame(client.get_exchange_info()['symbols']).set_index('symbol')
+        data_frame = pd.DataFrame(data_frame.loc[symbol]['filters']).set_index('filterType')
+        return data_frame.loc['MIN_NOTIONAL']['minNotional']
+
+    @staticmethod
+    def get_balance(symbol):
+        coin_order, currency_order = client.get_balance(symbol)
+
+        if 'msg' in coin_order:
+            Messages.get(coin_order['msg'])
+        if 'msg' in currency_order:
+            Messages.get(currency_order['msg'])
+
+        # Buy order created.
+        return coin_order['free'], currency_order['free']
+
+    @staticmethod
+    def buy_limit(symbol, quantity, buy_price):
         order = client.buy_limit(symbol, quantity, buy_price)
 
         if 'msg' in order:

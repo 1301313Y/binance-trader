@@ -3,6 +3,8 @@ import hashlib
 import requests
 import hmac
 
+import pandas as pd
+
 try:
     from urllib import urlencode
 # python3
@@ -51,8 +53,22 @@ class BinanceAPI:
         return self._get_no_sign(path, params)
 
     def get_account(self):
-        path = "%s/account" % self.BASE_URL
+        path = "%s/account" % self.BASE_URL_V3
         return self._get(path, {})
+
+    def get_balance(self, symbol):
+        if symbol[:-4] == 'USDT':
+            currency = 'USDT'
+            coin = symbol[:-3]
+        else:
+            currency = symbol[-3:]
+            coin = symbol[:-3]
+        balances = self.get_balances()
+        data_frame = pd.DataFrame(balances).set_index('asset')
+        return data_frame.loc[coin], data_frame.loc[currency]
+
+    def get_balances(self):
+        return self.get_account()['balances']
 
     def get_products(self):
         return requests.get(self.PUBLIC_URL, timeout=30, verify=True).json()
@@ -72,32 +88,32 @@ class BinanceAPI:
         return self._get(path, params)
 
     def buy_limit(self, market, quantity, rate):
-        path = "%s/order" % self.BASE_URL
+        path = "%s/order" % self.BASE_URL_V3
         params = self._order(market, quantity, "BUY", rate)
         return self._post(path, params)
 
     def sell_limit(self, market, quantity, rate):
-        path = "%s/order" % self.BASE_URL
+        path = "%s/order" % self.BASE_URL_V3
         params = self._order(market, quantity, "SELL", rate)
         return self._post(path, params)
 
     def buy_market(self, market, quantity):
-        path = "%s/order" % self.BASE_URL
+        path = "%s/order" % self.BASE_URL_V3
         params = self._order(market, quantity, "BUY")
         return self._post(path, params)
 
     def sell_market(self, market, quantity):
-        path = "%s/order" % self.BASE_URL
+        path = "%s/order" % self.BASE_URL_V3
         params = self._order(market, quantity, "SELL")
         return self._post(path, params)
 
     def query_order(self, market, order_id):
-        path = "%s/order" % self.BASE_URL
+        path = "%s/order" % self.BASE_URL_V3
         params = {"symbol": market, "orderId": order_id}
         return self._get(path, params)
 
     def cancel(self, market, order_id):
-        path = "%s/order" % self.BASE_URL
+        path = "%s/order" % self.BASE_URL_V3
         params = {"symbol": market, "orderId": order_id}
         return self._delete(path, params)
 

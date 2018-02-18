@@ -11,6 +11,7 @@ from app.behavior.RSI import RSI
 from app.behavior.StochOscillator import StochOscillator
 from app.behavior.Burst import Burst
 from app.behavior.Advice import Advice
+from app.behavior.WilliamsPR import WilliamsPR
 
 # Define Custom imports
 from Database import Database
@@ -52,7 +53,7 @@ class Trading:
     def __init__(self, option):
         # Behavior
         self.behavior = BehaviorManager()
-        self.behavior.submit([Burst(option), RSI(option), MACD(option), StochOscillator(option)])
+        self.behavior.submit([Burst(option), RSI(option), MACD(option), StochOscillator(option), WilliamsPR(option)])
         # Get argument parse options
         self.option = option
 
@@ -72,7 +73,6 @@ class Trading:
 
         # Do you have an open order?
         self.check_order()
-
         try:
             # Create order
             order_id = Orders.buy_limit(symbol, quantity, buy_price)
@@ -322,14 +322,14 @@ class Trading:
         # Screen log
         if self.option.prints and self.order_id == 0:
             spread_perc = (last_ask / last_bid - 1) * 100.0
-            print('[%s] Last Price:%.8f, Buy Price:%.8f, Profit Sell:%.8f, '
+            '''print('[%s] Last Price:%.8f, Buy Price:%.8f, Profit Sell:%.8f, '
                   'Last Bid:%.8f, Last Ask:%.8f, Spread:%.2f' % (
                       Orders.get_server_time(), last_price, buy_price, profitable_selling_price, last_bid, last_ask,
-                      spread_perc))
+                      spread_perc))'''
         # analyze = threading.Thread(target=analyze, args=(symbol,))
         # analyze.start()
 
-        if on_action == Advice.SELL:
+        if on_action.value == Advice.SELL.value and Orders.has_enough_to_trade(symbol, buying=False):
             # Profit mode
             if self.order_data is not None:
                 order = self.order_data
@@ -355,13 +355,11 @@ class Trading:
         if ask price is greater than profit price, 
         buy with my buy price,    
         '''
-        if on_action == Advice.BUY:
+        if  on_action.value == Advice.BUY.value and Orders.has_enough_to_trade(symbol):
             self.buy(symbol, quantity, buy_price)
             # Perform check/sell action
             # checkAction = threading.Thread(target=self.check, args=(symbol, self.order_id, quantity,))
             # checkAction.start()
-        action = on_action
-        print(action)
 
     @staticmethod
     def logic():

@@ -42,8 +42,15 @@ if __name__ == '__main__':
     parser.add_argument('--rsi_min', type=int, help='Relative Strength Index Minimum', default=30)
     parser.add_argument('--macd_uv', type=int, help='MACD Positive Cross Up Validations', default=4)
     parser.add_argument('--macd_dv', type=int, help='MACD Negative Cross Down Validations', default=0)
+    parser.add_argument('--stoch_k', type=int, help='Stoch Oscillator K Window Size', default=14)
+    parser.add_argument('--stoch_d', type=int, help='Stoch Oscillator D Window Size', default=3)
     parser.add_argument('--stoch_cap', type=int, help='Stoch Oscillator Alert Cap', default=80)
     parser.add_argument('--stoch_min', type=int, help='Stoch Oscillator Minimum Alert', default=20)
+    parser.add_argument('--will_window', type=int, help='Williams Price Range window size', default=6)
+    parser.add_argument('--will_cap', type=int, help='Williams Price Range percent cap', default=80)
+    parser.add_argument('--will_min', type=int, help='Williams Price Range percent minimum', default=20)
+    parser.add_argument('--will_uv', type=int, help='Williams Price Range up cross validations', default=2)
+    parser.add_argument('--will_dv', type=int, help='Williams Price Range down cross validations', default=0)
     option = parser.parse_args()
     
     # Get start
