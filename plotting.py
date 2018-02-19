@@ -6,6 +6,7 @@ from app.behavior.StochOscillator import StochOscillator
 from app.behavior.Burst import Burst
 from app.behavior.MACD import MACD
 from app.behavior.RSI import RSI
+from app.behavior.WilliamsPR import WilliamsPR
 
 sys.path.insert(0, './app')
 
@@ -36,6 +37,7 @@ class Plotting:
             behavior_list.append(oscillator)
             behavior_list.append(Burst(options))
         elif i == 4:
+            behavior_list.append(WilliamsPR(options))
             behavior_list.append(MACD(options))
         elif i == 3:
             behavior_list.append(RSI(options))

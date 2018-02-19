@@ -13,7 +13,7 @@ if __name__ == '__main__':
     # Set parser
     parser = argparse.ArgumentParser()
     parser.add_argument('--plotting', type=bool, help='Enables Plotting Mode For Testing (No Trading)', default=False)
-    parser.add_argument('--p_behavior', type=str, help='The Behavior To Use While In Plotting Mode', default='STOCH')
+    parser.add_argument('--p_behavior', type=str, help='The Behavior To Use While In Plotting Mode', default='WILL')
     parser.add_argument('--quantity', type=float, help='Buy/Sell Quantity', default=0)
     parser.add_argument('--amount', type=float, help='Buy/Sell BTC Amount (Ex: 0.002 BTC)', default=0)
     parser.add_argument('--symbol', type=str, help='Market Symbol (Ex: XVGBTC - XVGETH)', required=True)

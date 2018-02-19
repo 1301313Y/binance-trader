@@ -2,6 +2,11 @@ from behavior.Behavior import Behavior
 
 from app.Orders import Orders
 from behavior.Advice import Advice
+import pandas as pd
+from stockstats import StockDataFrame
+from behavior.Advice import Advice
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 class Burst(Behavior):
@@ -66,3 +71,8 @@ class Burst(Behavior):
                 # checkAction = threading.Thread(target=self.check, args=(symbol, self.order_id, quantity,))
                 # checkAction.start()
         return Advice.HOLD
+
+    def on_plot(self, symbol):
+        df = pd.DataFrame(Orders.get_candle_sticks(symbol, self.options.trading_period), dtype='float64').fillna(0)
+        # TODO
+        plt.show()
