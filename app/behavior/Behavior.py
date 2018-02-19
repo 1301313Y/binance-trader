@@ -1,6 +1,6 @@
 # Define Custom imports
 from behavior.Advice import Advice
-
+import pandas as pd
 
 class Behavior:
     column_names = ['opendate', 'open', 'high', 'low', 'close', 'volume', 'close date', 'quote',
@@ -55,6 +55,9 @@ class Behavior:
 
     def on_action(self, symbol):
         return Advice.HOLD
+
+    def on_plot(self, symbol):
+        return pd.DataFrame()
 
     def check_order(self):
         # If there is an open order, exit.

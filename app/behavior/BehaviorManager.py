@@ -1,6 +1,7 @@
 from behavior.Advice import Advice
 import pandas as pd
 
+
 class BehaviorManager:
     behavior_list = list()
 

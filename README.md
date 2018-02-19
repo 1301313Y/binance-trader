@@ -16,8 +16,10 @@ Because if you fail, just as with success you only have yourself to blame.
 * [requests](http://docs.python-requests.org/en/master/)
 * [stockstats](https://pypi.python.org/pypi/stockstats)
 * [pandas](https://pandas.pydata.org/)
+* [numpy](http://www.numpy.org/)
+* [pyplot](https://matplotlib.org/api/pyplot_api.html)
 ```
-Libraries:
+Standard Libraries:
 import os
 import sys
 import time
@@ -67,7 +69,8 @@ import sqlite3
     python trader.py --symbol XVGBTC --mode range --quantity 300 --buyprice 0.00000780 --sellprice 0.00000790
     or by amount
     python trader.py --symbol XVGBTC --mode range --amount 0.0022 --buyprice 0.00000780 --sellprice 0.00000790
-    
+    --plotting          Buy/Sell Quantity (default False)
+    --p_behavior        The Behavior To Use While In Plotting Mode (default= STOCH)
     --quantity          Buy/Sell Quantity (default 0) (If zero, auto calc)
     --amount            Buy/Sell BTC Amount (default 0)
     --symbol            Market Symbol (default XVGBTC or XVGETH)
@@ -107,6 +110,23 @@ import sqlite3
         trader.py --symbol NEOBTC --amount 0.1 --profit 1.1
         trader.py --symbol ETHUSDT --quantity 0.3 --profit 1.5
         ...
+## Plot Mode
+One issue with command line tools, is the inability to visual the data sets you are working with. To aid this issues
+I have implemented a plotting mode, to show performance of strategies over the course of a given period.
+This is so you can visually see the results of each behavior before applying them to a real trade situation.
+
+You can easily run this mode using the following parameters (Results In Image Below):<br>
+`trader.py --plotting True --symbol XVGETH --p_behavior STOCH`<br>
+_Note that all normal options apply_
+
+Available Behaviors:
+* `STOCH`   (Stochastic Oscillator)
+* `RSI`     (Relative Strength Index)
+* `MACD`    (Moving Average Convergence Divergence)
+
+Here is a example of the Stochastic Behavior for XVG/ETH, plotted over 500 15-minute periods.
+![Screenshot](https://github.com/yasinkuyu/binance-trader/blob/master/img/stoch_graph_example.png)
+
 ## Available Trading Periods
 * _m -> minutes;_
 * _h -> hours;_
@@ -175,10 +195,11 @@ import sqlite3
 ## Roadmap
 
     - Behavior Support (EMA, RSI, MACD, Etc...)
-    - EMA Behavior (In Progress)
-    - RSI Behavior (In Progress)
-    - MACD Behavior (In Progress)
-    - Multi-Behavior Advice Risk Factor Analysis
+    - EMA Behavior (Completed)
+    - RSI Behavior (Completed)
+    - MACD Behavior (Completed)
+    - Stochastic Behavior (Finalized - Tuning)
+    - Multi-Behavior Advice Risk Factor Analysis (Initial Complettion)
     - Stop-Loss implementation
     
  ## Modes  

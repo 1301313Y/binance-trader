@@ -4,6 +4,7 @@
 import sys
 import argparse
 from Trading import Trading
+from plotting import Plotting
 
 sys.path.insert(0, './app')
 
@@ -11,6 +12,8 @@ if __name__ == '__main__':
     
     # Set parser
     parser = argparse.ArgumentParser()
+    parser.add_argument('--plotting', type=bool, help='Enables Plotting Mode For Testing (No Trading)', default=False)
+    parser.add_argument('--p_behavior', type=str, help='The Behavior To Use While In Plotting Mode', default='STOCH')
     parser.add_argument('--quantity', type=float, help='Buy/Sell Quantity', default=0)
     parser.add_argument('--amount', type=float, help='Buy/Sell BTC Amount (Ex: 0.002 BTC)', default=0)
     parser.add_argument('--symbol', type=str, help='Market Symbol (Ex: XVGBTC - XVGETH)', required=True)
@@ -52,7 +55,10 @@ if __name__ == '__main__':
     parser.add_argument('--will_uv', type=int, help='Williams Price Range up cross validations', default=2)
     parser.add_argument('--will_dv', type=int, help='Williams Price Range down cross validations', default=0)
     option = parser.parse_args()
-    
+    if option.plotting:
+        p = Plotting(option)
+        p.plot()
     # Get start
-    t = Trading(option)
-    t.run()
+    else:
+        t = Trading(option)
+        t.run()
