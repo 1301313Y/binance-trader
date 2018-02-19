@@ -125,7 +125,10 @@ Available Behaviors:
 * `MACD`    (Moving Average Convergence Divergence)
 
 Here is a example of the Stochastic Behavior for XVG/ETH, plotted over 500 15-minute periods.
-![Screenshot](https://github.com/yasinkuyu/binance-trader/blob/master/img/stoch_graph_example.png)
+![Screenshot](https://github.com/1301313Y/binance-trader/blob/master/img/stoch_graph_example.PNG)
+
+As we can clearly see, this behavior would of resulted in a profit loss which could of been masked by using the command line tool soley.
+I plan on adding multi behavior support for plotting in the near future, so that the user can create their own list of behaviors, and get a reliable plot of the preformance.
 
 ## Available Trading Periods
 * _m -> minutes;_
